@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% for personne in personne %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{ personne.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ personne.firstname }}</h6>
+        <p class="card-text">{{ personne.age }}</p>
+    </div>
+</div>
+    {% endfor %}
+{% endblock %}
+
