@@ -7,6 +7,7 @@ use App\Repository\PersonneRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PersonneRepository::class)
@@ -24,16 +25,23 @@ class Personne
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="vous devez specifier un nom")
+     * @Assert\Length(min=3,max=20,minMessage="devez saisir un nom de longueur infierieur a 3")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min=1,max=199,
+     *     minMessage="vous ne pouvez pas avoir un age inferieur a un ans",
+     *     maxMessage="si vous avez plus de 200 vous etes un dinosore ")
+     *
      */
     private $age;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=60)
+     * @Assert\NotBlank(message="vous devez specifiez un prenom")
      */
     private $firstname;
 
@@ -48,7 +56,7 @@ class Personne
     private $hobbies;
 
     /**
-     * @ORM\OneToOne(targetEntity=PieceIdentite::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=PieceIdentite::class, inversedBy="personne",cascade={"persist", "remove"})
      */
     private $pieceIdentite;
 

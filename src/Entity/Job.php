@@ -28,7 +28,7 @@ class Job
     private $designation;
 
     /**
-     * @ORM\OneToMany(targetEntity=personne::class, mappedBy="job")
+     * @ORM\OneToMany(targetEntity=Personne::class, mappedBy="job")
      */
     private $personnes;
 

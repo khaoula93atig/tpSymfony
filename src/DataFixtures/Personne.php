@@ -29,8 +29,8 @@ class Personne extends Fixture implements DependentFixtureInterface
             }
             $personne->setJob($jobs[$faker->numberBetween(0, count($jobs)-1)]);
             $pieceIdentite = new PieceIdentite();
-            $pieceIdentite->setType($faker->randomNumber(8));
-            $pieceIdentite->setIdentifiant($piTypes[$i%2]);
+            $pieceIdentite->setIdentifiant($faker->randomNumber(8));
+            $pieceIdentite->setType($piTypes[$i%2]);
             $personne->setPieceIdentite($pieceIdentite);
             $manager->persist($personne);
 

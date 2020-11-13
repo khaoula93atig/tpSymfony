@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Controller\TimeStamp;
 use App\Repository\PieceIdentiteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Scalar\String_;
 
 /**
  * @ORM\Entity(repositoryClass=PieceIdentiteRepository::class)
@@ -23,12 +24,12 @@ class PieceIdentite
     /**
      * @ORM\Column(type="integer")
      */
-    private $type;
+    private $identifiant;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=30)
      */
-    private $identifiant;
+    private $type;
 
     /**
      * @ORM\OneToOne(targetEntity=Personne::class, mappedBy="pieceIdentite", cascade={"persist", "remove"})
@@ -40,28 +41,33 @@ class PieceIdentite
         return $this->id;
     }
 
-    public function getType(): ?int
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(int $type): self
+    public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function getIdentifiant(): ?string
+    public function getIdentifiant(): ?int
     {
         return $this->identifiant;
     }
 
-    public function setIdentifiant(string $identifiant): self
+    public function setIdentifiant(int $identifiant): self
     {
         $this->identifiant = $identifiant;
 
         return $this;
+    }
+
+    public function getPersonne(): ?Personne
+    {
+        return $this->personne;
     }
     public function setPersonne(?Personne $personne): self
     {

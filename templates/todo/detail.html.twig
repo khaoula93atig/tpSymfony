@@ -5,7 +5,7 @@
         <div class="col-md-6 img">
             <img
                     width="150px" height="150px"
-                    src="{{ personne.path }}"  alt="" class="rounded-circle">
+                    src="{{asset (personne.path) }}"  alt="" class="rounded-circle">
         </div>
         <div class="col-md-6 details">
             <blockquote>
@@ -17,6 +17,21 @@
                 www.bootsnipp.com <br>
                 June 18, 1990
             </p>
+            {% if personne.pieceIdentite %}
+                <div class="alert alert-primary">
+                    {{ personne.pieceIdentite.type}} : {{ personne.pieceIdentite.identifiant }}
+                    <a href="{{ path('piece_identite.edit', {'personne': personne.id, 'id': personne.pieceIdentite.id}) }}">
+                        <i class="fas fa-id-card"></i>
+                    </a>.
+                </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    Vous ne dispez pas d'une pièce d'identité. Pour la reseigner tapez ici
+                    <a href="{{ path('piece_identite.edit', {'personne': personne.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>.
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

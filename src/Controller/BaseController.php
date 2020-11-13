@@ -137,12 +137,20 @@ class BaseController extends AbstractController
         $form->remove('updatedAt');
         $form->remove('pieceIdentite');
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageInfos = $form->get('image')->getData();
+            if ($imageInfos){
+                $imageName = $imageInfos->getClientOriginalName();
+                $newImageName = md5(uniqid()) . $imageName;
+                $imageInfos->move($this->getParameter('personne_directory'),
+                    $newImageName);
+                $personne->setPath('uploads/personne/' . $newImageName);
+            }
+
             $req = $this->getDoctrine()->getManager();
             $req->persist($personne);
             $req->flush();
-            $this->addFlash('success', 'modifie avec succssé ');
-            return $this->redirectToRoute('personne.liste');
+            return $this->redirectToRoute('personne.detail',['id' => $personne->getId()]);
         }
         return $this->render('todo/for.html.twig', [
             'form' => $form->createView()
@@ -192,11 +200,12 @@ class BaseController extends AbstractController
     /**
      * @Route ("/piece/{id}",name="personne.piece")
      */
-    public function affichePiece($id,\Symfony\Component\HttpFoundation\Request $request ){
+   /* public function affichePiece($id,\Symfony\Component\HttpFoundation\Request $request )
+    {
 
         $repository = $this->getDoctrine()->getRepository(Personne::class);
         $personne = $repository->find($id);
-        $piece=$personne->getPieceIdentite();
+        $piece = $personne->getPieceIdentite();
         if ($piece) {
             return $this->render('todo/piece.html.twig', ['piece' => $piece]);
         } else {
@@ -205,21 +214,20 @@ class BaseController extends AbstractController
             $form->remove('createdAt');
             $form->remove('updatedAt');
             $form->handleRequest($request);
-            if ($form->isSubmitted()){
-                $req= $this->getDoctrine()->getManager();
+            if ($form->isSubmitted()) {
+                $req = $this->getDoctrine()->getManager();
                 $req->persist($piece);
                 $personne->setPieceIdentite($piece);
                 $req->persist($personne);
                 $req->flush();
-                $this->addFlash('success','ajout avec succssé ');
-                return $this->redirectToRoute('personne.liste');
+                return $this->redirectToRoute('personne.detail', ['id' => $personne->getId()]);
             }
             return $this->render('todo/formpiece.html.twig', [
                 'form' => $form->createView()
             ]);
         }
-    }
 
 
+    }*/
 
 }
