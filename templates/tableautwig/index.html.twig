@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <table border="3">
+        {% for element in tableau %}
+            <tr>
+                <td
+                        {% if loop.first or loop.last %}
+                        style="font-weight: bold"
+                        {% endif %}
+                >
+
+                    note num {{ loop.index }} : {{ element }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h3>le max est :</h3>
+    {{ max(tableau) }}
+    <h3>le min est :</h3>
+    {{min(tableau)}}
+</body>
+</html>
